@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BarberBook</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#0b0b0d;
+color:#fff;
+font-family:Tahoma,Arial,sans-serif;
+}
+
+.app{
+max-width:650px;
+margin:auto;
+padding:20px 16px 80px;
+min-height:100vh;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.logo{
+font-size:27px;
+font-weight:900;
+}
+
+.logo span{
+color:#888;
+}
+
+.sub{
+font-size:12px;
+color:#777;
+margin-top:5px;
+}
+
+button,input,textarea{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.icon{
+width:45px;
+height:45px;
+border-radius:14px;
+border:1px solid #303035;
+background:#18181c;
+color:white;
+font-size:24px;
+}
+
+.search{
+width:100%;
+padding:14px;
+border-radius:15px;
+border:1px solid #29292e;
+background:#151518;
+color:#fff;
+outline:none;
+margin-bottom:12px;
+}
+
+.primary{
+width:100%;
+padding:14px;
+border:0;
+border-radius:15px;
+background:#eee;
+color:#111;
+font-weight:bold;
+margin-bottom:18px;
+}
+
+.card{
+display:flex;
+align-items:center;
+gap:13px;
+background:#151518;
+border:1px solid #29292e;
+border-radius:18px;
+padding:13px;
+margin-bottom:10px;
+cursor:pointer;
+}
+
+.avatar{
+width:60px;
+height:60px;
+border-radius:16px;
+object-fit:cover;
+background:#27272c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:20px;
+flex-shrink:0;
+}
+
+.info{
+flex:1;
+min-width:0;
+}
+
+.name{
+font-weight:bold;
+font-size:16px;
+}
+
+.meta{
+color:#888;
+font-size:12px;
+margin-top:6px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.arrow{
+color:#666;
+font-size:22px;
+}
+
+.view{
+display:none;
+}
+
+.view.active{
+display:block;
+}
+
+.back{
+background:none;
+border:0;
+color:#aaa;
+margin-bottom:12px;
+}
+
+.title{
+font-size:24px;
+font-weight:bold;
+margin:10px 0 18px;
+}
+
+.form{
+background:#151518;
+border:1px solid #29292e;
+border-radius:18px;
+padding:16px;
+}
+
+label{
+display:block;
+font-size:12px;
+color:#aaa;
+margin:14px 0 7px;
+}
+
+input,textarea{
+width:100%;
+padding:13px;
+border-radius:12px;
+border:1px solid #303035;
+background:#0f0f12;
+color:#fff;
+outline:none;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.save{
+width:100%;
+padding:14px;
+border:0;
+border-radius:14px;
+background:#eee;
+color:#111;
+font-weight:bold;
+margin-top:18px;
+}
+
+.profile{
+display:flex;
+gap:15px;
+align-items:center;
+background:#151518;
+border:1px solid #29292e;
+border-radius:20px;
+padding:16px;
+}
+
+.bigavatar{
+width:85px;
+height:85px;
+border-radius:20px;
+object-fit:cover;
+background:#27272c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+font-weight:bold;
+flex-shrink:0;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:12px;
+}
+
+.secondary{
+padding:13px;
+border-radius:13px;
+border:1px solid #333;
+background:#1b1b1f;
+color:white;
+}
+
+.danger{
+background:#241518;
+color:#ffb5b5;
+}
+
+.section{
+font-size:14px;
+color:#aaa;
+font-weight:bold;
+margin:22px 0 9px;
+}
+
+.visit{
+background:#151518;
+border:1px solid #29292e;
+border-radius:18px;
+padding:13px;
+margin-bottom:10px;
+}
+
+.visitTop{
+display:flex;
+justify-content:space-between;
+color:#888;
+font-size:12px;
+margin-bottom:10px;
+}
+
+.visit img{
+width:100%;
+max-height:320px;
+object-fit:cover;
+border-radius:13px;
+margin-bottom:10px;
+}
+
+.tags{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+
+.tag{
+background:#27272c;
+padding:7px 9px;
+border-radius:9px;
+font-size:12px;
+}
+
+.note{
+color:#aaa;
+font-size:13px;
+line-height:1.8;
+margin-top:9px;
+white-space:pre-wrap;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:50px 15px;
+border:1px dashed #333;
+border-radius:18px;
+}
+
+.preview{
+width:100%;
+max-height:280px;
+object-fit:cover;
+border-radius:12px;
+margin-top:10px;
+display:none;
+}
+
+.toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#eee;
+color:#111;
+padding:12px 18px;
+border-radius:12px;
+display:none;
+font-size:13px;
+z-index:10;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- HOME -->
+<div id="home" class="view active">
+
+<header>
+<div>
+<div class="logo">Barber<span>Book</span></div>
+<div class="sub">دفتر دیجیتال مشتری‌ها</div>
+</div>
+
+<button class="icon" onclick="showAddClient()">＋</button>
+</header>
+
+<input
+id="search"
+class="search"
+placeholder="جستجوی نام یا شماره مشتری..."
+oninput="renderClients()"
+>
+
+<button class="primary" onclick="showAddClient()">
+＋ افزودن مشتری جدید
+</button>
+
+<div id="clientList"></div>
+
+</div>
+
+
+<!-- PROFILE -->
+<div id="profile" class="view">
+
+<button class="back" onclick="showHome()">
+← برگشت به مشتری‌ها
+</button>
+
+<div id="profileContent"></div>
+
+</div>
+
+
+<!-- ADD CLIENT -->
+<div id="addClient" class="view">
+
+<button class="back" onclick="showHome()">
+← برگشت
+</button>
+
+<div class="title">
+مشتری جدید
+</div>
+
+<div class="form">
+
+<label>نام مشتری</label>
+
+<input
+id="cName"
+placeholder="مثلاً محمد رضایی"
+>
+
+<label>شماره تماس</label>
+
+<input
+id="cPhone"
+inputmode="tel"
+placeholder="اختیاری"
+>
+
+<label>عکس مشتری</label>
+
+<input
+id="cPhoto"
+type="file"
+accept="image/*"
+onchange="previewImage('cPhoto','cPreview')"
+>
+
+<img id="cPreview" class="preview">
+
+<button class="save" onclick="saveClient()">
+ذخیره مشتری
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ADD VISIT -->
+<div id="addVisit" class="view">
+
+<button class="back" onclick="openProfile(currentClientId)">
+← برگشت به پروفایل
+</button>
+
+<div class="title">
+ثبت اصلاح جدید
+</div>
+
+<div class="form">
+
+<label>عکس اصلاح</label>
+
+<input
+id="vPhoto"
+type="file"
+accept="image/*"
+onchange="previewImage('vPhoto','vPreview')"
+>
+
+<img id="vPreview" class="preview">
+
+<label>مدل مو</label>
+
+<input
+id="vCut"
+placeholder="مثلاً Low Fade"
+>
+
+<label>گارد</label>
+
+<input
+id="vGuard"
+placeholder="مثلاً 0.5 → 1 → 2"
+>
+
+<label>مدل ریش</label>
+
+<input
+id="vBeard"
+placeholder="مثلاً شماره 2"
+>
+
+<label>توضیحات</label>
+
+<textarea
+id="vNote"
+placeholder="مثلاً بالای مو با قیچی، دور گوش تمیز..."
+></textarea>
+
+<button class="save" onclick="saveVisit()">
+ذخیره اصلاح
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const STORAGE_KEY = "BarberBook";
+
+let data = JSON.parse(
+localStorage.getItem(STORAGE_KEY) ||
+'{"clients":[]}'
+);
+
+let currentClientId = null;
+
+
+function saveData(){
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(data)
+);
+
+}
+
+
+function show(id){
+
+document
+.querySelectorAll(".view")
+.forEach(v => v.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+window.scrollTo(0,0);
+
+}
+
+
+function showHome(){
+
+show("home");
+
+renderClients();
+
+}
+
+
+function showAddClient(){
+
+document.getElementById("cName").value="";
+document.getElementById("cPhone").value="";
+document.getElementById("cPhoto").value="";
+
+hidePreview("cPreview");
+
+show("addClient");
+
+}
+
+
+function showAddVisit(){
+
+document.getElementById("vPhoto").value="";
+document.getElementById("vCut").value="";
+document.getElementById("vGuard").value="";
+document.getElementById("vBeard").value="";
+document.getElementById("vNote").value="";
+
+hidePreview("vPreview");
+
+show("addVisit");
+
+}
+
+
+function initials(name){
+
+return name
+.trim()
+.split(/\s+/)
+.slice(0,2)
+.map(x => x[0])
+.join("")
+.toUpperCase();
+
+}
+
+
+function today(){
+
+return new Intl.DateTimeFormat(
+"fa-IR",
+{
+year:"numeric",
+month:"long",
+day:"numeric"
+}
+).format(new Date());
+
+}
+
+
+function renderClients(){
+
+const search =
+document.getElementById("search").value
+.toLowerCase()
+.trim();
+
+const clients =
+data.clients.filter(c =>
+(c.name + " " + (c.phone || ""))
+.toLowerCase()
+.includes(search)
+);
+
+const box =
+document.getElementById("clientList");
+
+
+if(!clients.length){
+
+box.innerHTML = `
+<div class="empty">
+هنوز مشتری‌ای ثبت نشده.
+<br><br>
+اولین مشتری را اضافه کن ✂️
+</div>
+`;
+
+return;
+
+}
+
+
+box.innerHTML =
+clients.map(c => {
+
+const visits = c.visits || [];
+
+const last =
+visits.length
+? visits[visits.length-1]
+: null;
+
+return `
+
+<div class="card"
+onclick="openProfile('${c.id}')">
+
+${
+c.photo
+?
+`<img class="avatar" src="${c.photo}">`
+:
+`<div class="avatar">
+${initials(c.name)}
+</div>`
+}
+
+<div class="info">
+
+<div class="name">
+${escapeHTML(c.name)}
+</div>
+
+<div class="meta">
+
+${
+last
+?
+escapeHTML(last.cut || "بدون مدل")
++
+" · "
++
+last.date
+:
+"هنوز اصلاحی ثبت نشده"
+}
+
+</div>
+
+</div>
+
+<div class="arrow">
+‹
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+function saveClient(){
+
+const name =
+document.getElementById("cName")
+.value
+.trim();
+
+if(!name){
+
+toast("نام مشتری را وارد کن");
+
+return;
+
+}
+
+const phone =
+document.getElementById("cPhone")
+.value
+.trim();
+
+const file =
+document.getElementById("cPhoto")
+.files[0];
+
+
+function finish(photo){
+
+const client = {
+
+id:
+Date.now().toString(),
+
+name:name,
+
+phone:phone,
+
+photo:photo || "",
+
+visits:[]
+
+};
+
+data.clients.unshift(client);
+
+saveData();
+
+openProfile(client.id);
+
+toast("مشتری ذخیره شد");
+
+}
+
+
+if(file){
+
+readFile(file,finish);
+
+}else{
+
+finish("");
+
+}
+
+}
+
+
+function openProfile(id){
+
+currentClientId=id;
+
+const client =
+data.clients.find(c => c.id === id);
+
+if(!client)return;
+
+const visits =
+[...(client.visits || [])].reverse();
+
+document.getElementById("profileContent")
+.innerHTML = `
+
+<div class="profile">
+
+${
+client.photo
+?
+`<img class="bigavatar" src="${client.photo}">`
+:
+`<div class="bigavatar">
+${initials(client.name)}
+</div>`
+}
+
+<div class="info">
+
+<div class="title"
+style="margin:0 0 6px">
+
+${escapeHTML(client.name)}
+
+</div>
+
+<div class="meta">
+
+${
+client.phone
+?
+escapeHTML(client.phone)
+:
+"شماره ثبت نشده"
+}
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="secondary"
+onclick="showAddVisit()">
+
+＋ ثبت اصلاح
+
+</button>
+
+<button
+class="secondary danger"
+onclick="deleteClient()">
+
+حذف مشتری
+
+</button>
+
+</div>
+
+
+<div class="section">
+
+تاریخچه اصلاح‌ها
+(${visits.length})
+
+</div>
+
+
+${
+visits.length
+
+?
+
+visits.map(v => `
+
+<div class="visit">
+
+<div class="visitTop">
+
+<span>
+${escapeHTML(v.date)}
+</span>
+
+<span>
+${escapeHTML(v.time || "")}
+</span>
+
+</div>
+
+
+${
+v.photo
+?
+`<img src="${v.photo}">`
+:
+""
+}
+
+
+<div class="tags">
+
+${
+v.cut
+?
+`<span class="tag">
+✂️ ${escapeHTML(v.cut)}
+</span>`
+:
+""
+}
+
+${
+v.guard
+?
+`<span class="tag">
+🔢 ${escapeHTML(v.guard)}
+</span>`
+:
+""
+}
+
+${
+v.beard
+?
+`<span class="tag">
+🧔 ${escapeHTML(v.beard)}
+</span>`
+:
+""
+}
+
+</div>
+
+
+${
+v.note
+?
+`<div class="note">
+${escapeHTML(v.note)}
+</div>`
+:
+""
+}
+
+</div>
+
+`).join("")
+
+:
+
+`<div class="empty">
+هنوز سابقه اصلاحی ثبت نشده.
+</div>`
+
+}
+
+`;
+
+show("profile");
+
+}
+
+
+function saveVisit(){
+
+const file =
+document.getElementById("vPhoto")
+.files[0];
+
+const visit = {
+
+date:today(),
+
+time:new Date().toLocaleTimeString(
+"fa-IR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+),
+
+cut:
+document.getElementById("vCut")
+.value
+.trim(),
+
+guard:
+document.getElementById("vGuard")
+.value
+.trim(),
+
+beard:
+document.getElementById("vBeard")
+.value
+.trim(),
+
+note:
+document.getElementById("vNote")
+.value
+.trim(),
+
+photo:""
+
+};
+
+
+function finish(photo){
+
+visit.photo=photo || "";
+
+const client =
+data.clients.find(
+c => c.id === currentClientId
+);
+
+client.visits =
+client.visits || [];
+
+client.visits.push(visit);
+
+saveData();
+
+openProfile(currentClientId);
+
+toast("اصلاح ذخیره شد");
+
+}
+
+
+if(file){
+
+readFile(file,finish);
+
+}else{
+
+finish("");
+
+}
+
+}
+
+
+function deleteClient(){
+
+if(
+!confirm(
+"این مشتری و تمام سابقه اصلاح‌هایش حذف شود؟"
+)
+)return;
+
+data.clients =
+data.clients.filter(
+c => c.id !== currentClientId
+);
+
+saveData();
+
+showHome();
+
+toast("مشتری حذف شد");
+
+}
+
+
+function readFile(file,callback){
+
+const reader =
+new FileReader();
+
+reader.onload =
+() => callback(reader.result);
+
+reader.readAsDataURL(file);
+
+}
+
+
+function previewImage(inputId,imageId){
+
+const file =
+document.getElementById(inputId)
+.files[0];
+
+if(!file)return;
+
+readFile(file,src => {
+
+const image =
+document.getElementById(imageId);
+
+image.src=src;
+
+image.style.display="block";
+
+});
+
+}
+
+
+function hidePreview(id){
+
+const image =
+document.getElementById(id);
+
+image.src="";
+
+image.style.display="none";
+
+}
+
+
+function toast(message){
+
+const element =
+document.getElementById("toast");
+
+element.textContent=message;
+
+element.style.display="block";
+
+setTimeout(
+() => element.style.display="none",
+1600
+);
+
+}
+
+
+function escapeHTML(text){
+
+return String(text || "")
+.replace(/[&<>"']/g,function(char){
+
+return {
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[char];
+
+});
+
+}
+
+
+renderClients();
+
+</script>
+
+</body>
+</html>
